@@ -29,9 +29,12 @@ export default {
     }
   },
   mounted () {
+    var self = this;
     axios
       .get('/api/users.json')
-      .then(response => (this.users = response.data))
+      .then(function (response) {
+        self.users = response.data.users
+      })
   }
 }
 </script>
