@@ -9,7 +9,7 @@
           <th>Email</th>
           <th>Birtday</th>
         </tr>
-        <tr v-for="u in users" :key="u.id">
+        <tr v-for="u in post" :key="u.id">
           <td>{{ u.id }}</td>
           <td>{{ u.name }}</td>
           <td>{{ u.email }}</td>
