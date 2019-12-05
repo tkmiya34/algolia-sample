@@ -4,9 +4,9 @@
       <tbody>
         <tr>
           <th>ID</th>
-          <th>name</th>
-          <th>email</th>
-          <th>birth_date</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Birtday</th>
         </tr>
         <tr v-for="u in users" :key="u.id">
           <td>{{ u.id }}</td>
@@ -29,7 +29,7 @@ export default {
     }
   },
   mounted () {
-    var self = this;
+    let self = this;
     axios
       .get('/api/users.json')
       .then(function (response) {
