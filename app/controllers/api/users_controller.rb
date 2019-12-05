@@ -7,6 +7,9 @@ class Api::UsersController < ApplicationController
 
   def create
     user_params = params.require(:user).permit(:name,:email,:birth_date)
-    User.create!(user_params)
+    u = User.create!(user_params)
+
+    # algoliaにインデックス作成
+    u.algolia_index!
   end
 end
