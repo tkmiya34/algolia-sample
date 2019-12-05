@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <input v-model="search_text" placeholder="edit me">
     <table>
       <tbody>
         <tr>
@@ -20,21 +21,48 @@
 </template>
 
 <script>
-import axios from 'axios';
+import algoliasearch from 'algoliasearch';
 
 export default {
   data: function () {
     return {
-      users: []
+      users: [],
+      search_text: '',
+      index: null
     }
   },
-  mounted () {
+  created: function() {
     let self = this;
-    axios
-      .get('/api/users.json')
-      .then(function (response) {
-        self.users = response.data.users
-      })
+    // Algolia APIクライアントを初期化
+    let searchClient = algoliasearch(
+      'APP_ID',
+      'SEARCH_ONLY_API_KEY'
+    )
+    // 使用するindexを指定
+    self.index = searchClient.initIndex('User');
+    this.searchUser()
+  },
+  watch: {
+    search_text: function () {
+      this.searchUser()
+    }
+  },
+  watch: {
+    search_text: function () {
+      this.searchUser()
+    }
+  },
+  methods: {
+    searchUser: function () {
+      let self = this;
+      // ここでAlgoliaのAPIへ検索リクエストを投げています
+      // searchメソッドの第一引数が検索文字列です。
+      // 試しに "art" で検索してみます
+      self.index.search(self.search_text, (err, { hits } = {}) => {
+        // 検索結果をデータバインドしているusersに格納
+        self.users = hits;
+      });
+    }
   }
 }
 </script>
